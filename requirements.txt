@@ -1,0 +1,8 @@
+streamlit>=1.20.0
+python-dotenv>=1.0.0
+pydantic>=1.10.0
+pandas>=1.5.0
+tqdm
+openai>=1.0.0   # only needed if using openai provider
+groq           # only needed if using groq provider
+langchain>=0.0.300  # optional if you use agents later
