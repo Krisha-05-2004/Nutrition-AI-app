@@ -86,6 +86,113 @@ PAGE_CSS = f"""
 """
 st.markdown(PAGE_CSS, unsafe_allow_html=True)
 
+MOBILE_RESPONSIVE_CSS = r"""
+<style>
+/* keep consistent base behavior */
+.stApp {
+  background-size: cover !important;
+  background-position: center top !important;
+  -webkit-text-size-adjust: 100%; /* don't auto-scale fonts on iOS/Android */
+}
+
+/* overlay for readability (desktop default) */
+.stApp::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(3px);
+  z-index: 0;
+}
+
+/* Stack content above overlay */
+.block-container, .stApp > .main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Main card / layout box (desktop) */
+.main-card {
+  backdrop-filter: blur(6px) saturate(120%);
+  background: rgba(255,255,255,0.86);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 8px 30px rgba(22,23,24,0.06);
+  border: 1px solid rgba(200,200,210,0.35);
+}
+
+/* Smaller, tighter cards on mobile */
+@media (max-width: 900px) {
+  .stApp::before {
+    /* slightly stronger overlay on smaller screens so text is visible over bright backgrounds */
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(2px);
+  }
+
+  /* Remove fixed background on mobile (prevents weird zoom & parallax issues) */
+  .stApp {
+    background-attachment: scroll !important;
+    background-position: center top !important;
+  }
+
+  /* Smaller paddings and font sizes */
+  .main-card {
+    padding: 12px !important;
+    border-radius: 10px !important;
+    background: rgba(255,255,255,0.90) !important;
+  }
+
+  .recipe-card { padding: 8px !important; }
+  .assistant-box { padding: 10px !important; font-size: 14px !important; }
+
+  /* Reduce big hero header size on phones */
+  .stApp h1, .stApp h2, .stApp h3 {
+    line-height: 1 !important;
+  }
+  .stApp h1 {
+    font-size: 30px !important;
+    margin: 6px 0 8px 0 !important;
+  }
+
+  /* Narrow the block container so content doesn't overflow */
+  .block-container {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* Sidebar inputs stack better on mobile (Streamlit moves sidebar to the top) */
+  .css-1lcbmhc { padding: 6px !important; } /* generic small padding - streamlit internal classes vary */
+
+  /* Make download / buttons full width on mobile */
+  .stButton>button, .stDownloadButton>button {
+    width: 100% !important;
+  }
+
+  /* shrink the hero emoji / logo area */
+  .stMarkdown h1 img, .stMarkdown img {
+    max-height: 42px !important;
+    max-width: 42px !important;
+  }
+
+  /* keep some spacing for the blue assistant box */
+  .assistant-box { margin-top: 10px !important; margin-bottom: 10px !important; }
+}
+
+/* Very small screens (narrow phones) */
+@media (max-width: 420px) {
+  .stApp h1 {
+    font-size: 24px !important;
+  }
+  .assistant-box { font-size: 13px !important; padding: 8px !important; }
+  .main-card { padding: 10px !important; }
+}
+</style>
+"""
+
+# Inject this CSS (append it)
+st.markdown(MOBILE_RESPONSIVE_CSS, unsafe_allow_html=True)
+
+
 # ---------- small starter dataset (seed recipes) ----------
 SAMPLE_RECIPES = {
     "moong_dal_chilla": {
