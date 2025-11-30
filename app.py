@@ -86,111 +86,118 @@ PAGE_CSS = f"""
 """
 st.markdown(PAGE_CSS, unsafe_allow_html=True)
 
-MOBILE_RESPONSIVE_CSS = r"""
+FORCE_MOBILE_CSS = r"""
 <style>
-/* keep consistent base behavior */
-.stApp {
-  background-size: cover !important;
-  background-position: center top !important;
-  -webkit-text-size-adjust: 100%; /* don't auto-scale fonts on iOS/Android */
+/* make sure base uses your bg */
+html, body, .stApp {
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  color: #111 !important;             /* force dark text */
 }
 
-/* overlay for readability (desktop default) */
+/* desktop overlay (keeps look) */
 .stApp::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(3px);
-  z-index: 0;
+  content: "" !important;
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(255,255,255,0.72) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  z-index: 0 !important;
 }
 
-/* Stack content above overlay */
-.block-container, .stApp > .main {
-  position: relative;
-  z-index: 1;
+/* content above overlay */
+.block-container, .stApp > .main, .css-1d391kg { /* added common streamlit containers */
+  position: relative !important;
+  z-index: 1 !important;
+  color: #111 !important;            /* also force text color for children */
 }
 
-/* Main card / layout box (desktop) */
-.main-card {
-  backdrop-filter: blur(6px) saturate(120%);
-  background: rgba(255,255,255,0.86);
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: 0 8px 30px rgba(22,23,24,0.06);
-  border: 1px solid rgba(200,200,210,0.35);
+/* hero / cards */
+.main-card, .recipe-card, .assistant-box {
+  background: rgba(255,255,255,0.90) !important;
+  color: #0b2540 !important;
 }
 
-/* Smaller, tighter cards on mobile */
+/* Force header color & weight so it's readable */
+.stApp h1, .stApp h2, .stApp h3, .stMarkdown h1, .stMarkdown h2 {
+  color: #0b2540 !important;
+  text-shadow: none !important;
+}
+
+/* Prevent mobile browsers from applying 'dark mode' colors */
+@media (prefers-color-scheme: dark) {
+  html, body, .stApp, .block-container {
+    background-color: transparent !important;
+    color: #111 !important;
+  }
+  .stApp::before { background: rgba(255,255,255,0.78) !important; }
+}
+
+/* ----- PHONE-SPECIFIC OVERRIDES ----- */
 @media (max-width: 900px) {
-  .stApp::before {
-    /* slightly stronger overlay on smaller screens so text is visible over bright backgrounds */
-    background: rgba(255,255,255,0.78);
-    backdrop-filter: blur(2px);
-  }
-
-  /* Remove fixed background on mobile (prevents weird zoom & parallax issues) */
+  /* switch to a lighter background image on phones (your lighter image) */
   .stApp {
-    background-attachment: scroll !important;
+    background-image: url("https://as2.ftcdn.net/v2/jpg/02/49/58/87/1000_F_249588708_tfhSIvYkdS2RLrMeNUSqMJhkOJ5En7EW.jpg") !important;
     background-position: center top !important;
+    background-size: cover !important;
+    background-attachment: scroll !important; /* avoid fixed on mobile */
   }
 
-  /* Smaller paddings and font sizes */
-  .main-card {
-    padding: 12px !important;
-    border-radius: 10px !important;
-    background: rgba(255,255,255,0.90) !important;
+  /* stronger overlay for phones so text pops */
+  .stApp::before {
+    background: rgba(255,255,255,0.86) !important; /* increase opacity for readability */
+    backdrop-filter: blur(3px) !important;
+    -webkit-backdrop-filter: blur(3px) !important;
   }
 
+  /* shrink big hero & make text bold & dark */
+  .stApp h1 {
+    font-size: 24px !important;
+    line-height: 1 !important;
+    color: #0b2540 !important;
+    margin: 6px 0 10px 0 !important;
+  }
+  .stApp h2, .stApp h3 { color: #0b2540 !important; }
+
+  /* reduce spacing and padding so things fit on small screens */
+  .main-card { padding: 10px !important; border-radius: 10px !important; }
   .recipe-card { padding: 8px !important; }
   .assistant-box { padding: 10px !important; font-size: 14px !important; }
 
-  /* Reduce big hero header size on phones */
-  .stApp h1, .stApp h2, .stApp h3 {
-    line-height: 1 !important;
-  }
-  .stApp h1 {
-    font-size: 30px !important;
-    margin: 6px 0 8px 0 !important;
-  }
-
-  /* Narrow the block container so content doesn't overflow */
-  .block-container {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-  }
-
-  /* Sidebar inputs stack better on mobile (Streamlit moves sidebar to the top) */
-  .css-1lcbmhc { padding: 6px !important; } /* generic small padding - streamlit internal classes vary */
-
-  /* Make download / buttons full width on mobile */
-  .stButton>button, .stDownloadButton>button {
+  /* make buttons expand full width */
+  .stButton>button, .stDownloadButton>button, .stTextInput>input {
     width: 100% !important;
   }
 
-  /* shrink the hero emoji / logo area */
-  .stMarkdown h1 img, .stMarkdown img {
-    max-height: 42px !important;
-    max-width: 42px !important;
+  /* force sidebar-to-top area readable */
+  .css-1d391kg, .css-1lcbmhc, .css-1v0mbdj { /* common streamlit wrapper classes (may vary) */
+    background: rgba(255,255,255,0.92) !important;
+    color: #111 !important;
   }
 
-  /* keep some spacing for the blue assistant box */
-  .assistant-box { margin-top: 10px !important; margin-bottom: 10px !important; }
+  /* hide small decorative images in header if they collide */
+  .stMarkdown img { max-height: 36px !important; max-width: 36px !important; }
+
+  /* ensure the plan notice box (blue) remains readable */
+  .assistant-box, .css-1o4c2k3 { background: rgba(220,235,255,0.98) !important; color: #072241 !important; }
+
+  /* If any Streamlit internal class forces white text, override */
+  .stText, .stText > div, .stMarkdown, .stMarkdown > div {
+    color: #111 !important;
+  }
 }
 
-/* Very small screens (narrow phones) */
+/* extremely narrow phones */
 @media (max-width: 420px) {
-  .stApp h1 {
-    font-size: 24px !important;
-  }
+  .stApp h1 { font-size: 20px !important; }
   .assistant-box { font-size: 13px !important; padding: 8px !important; }
-  .main-card { padding: 10px !important; }
 }
 </style>
 """
 
-# Inject this CSS (append it)
-st.markdown(MOBILE_RESPONSIVE_CSS, unsafe_allow_html=True)
+# inject
+st.markdown(FORCE_MOBILE_CSS, unsafe_allow_html=True)
 
 
 # ---------- small starter dataset (seed recipes) ----------
