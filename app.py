@@ -88,11 +88,11 @@ st.markdown(PAGE_CSS, unsafe_allow_html=True)
 
 FORCE_MOBILE_CSS = r"""
 <style>
-/* make sure base uses your bg */
+/* make sure base uses your bg and readable text */
 html, body, .stApp {
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
-  color: #111 !important;             /* force dark text */
+  color: #111 !important;
 }
 
 /* desktop overlay (keeps look) */
@@ -107,10 +107,10 @@ html, body, .stApp {
 }
 
 /* content above overlay */
-.block-container, .stApp > .main, .css-1d391kg { /* added common streamlit containers */
+.block-container, .stApp > .main, .css-1d391kg {
   position: relative !important;
   z-index: 1 !important;
-  color: #111 !important;            /* also force text color for children */
+  color: #111 !important;
 }
 
 /* hero / cards */
@@ -136,6 +136,7 @@ html, body, .stApp {
 
 /* ----- PHONE-SPECIFIC OVERRIDES ----- */
 @media (max-width: 900px) {
+
   /* switch to a lighter background image on phones (your lighter image) */
   .stApp {
     background-image: url("https://as2.ftcdn.net/v2/jpg/02/49/58/87/1000_F_249588708_tfhSIvYkdS2RLrMeNUSqMJhkOJ5En7EW.jpg") !important;
@@ -146,70 +147,51 @@ html, body, .stApp {
 
   /* stronger overlay for phones so text pops */
   .stApp::before {
-    background: rgba(255,255,255,0.86) !important; /* increase opacity for readability */
+    background: rgba(255,255,255,0.86) !important;
     backdrop-filter: blur(3px) !important;
     -webkit-backdrop-filter: blur(3px) !important;
   }
 
-  /* shrink big hero & make text bold & dark */
-/* PHONE OVERRIDE — FORCE BIG TITLE */
-@media (max-width: 1000px) {
-
-    .stApp h1 {
-        font-size: 48px !important;        /* big */
-        font-weight: 900 !important;
-        line-height: 1.2 !important;
-        color: #0b2540 !important;
-        margin: 12px 0 20px 0 !important;
-        text-align: center !important;
-
-        /* make sure absolutely nothing overrides this */
-        -webkit-text-size-adjust: none !important;
-        text-size-adjust: none !important;
-    }
-
-    /* EVEN MORE FORCE */
-    h1, .stMarkdown h1, .stMarkdown > h1 {
-        font-size: 48px !important;
-        font-weight: 900 !important;
-        line-height: 1.2 !important;
-    }
-}
-
-  .stApp h2, .stApp h3 { color: #0b2540 !important; }
-
-  /* reduce spacing and padding so things fit on small screens */
-  .main-card { padding: 10px !important; border-radius: 10px !important; }
-  .recipe-card { padding: 8px !important; }
-  .assistant-box { padding: 10px !important; font-size: 14px !important; }
-
-  /* make buttons expand full width */
-  .stButton>button, .stDownloadButton>button, .stTextInput>input {
-    width: 100% !important;
+  /* hero title: high-specificity selectors for many Streamlit DOM shapes */
+  .stApp .main-card h1,
+  .stApp .main-card .stMarkdown h1,
+  .stApp .main-card .element-container h1,
+  .stApp .main-card .css-1u0e6g9 h1,
+  .stApp h1,
+  .stApp .stMarkdown h1,
+  .stMarkdown h1,
+  .block-container h1,
+  h1 {
+    font-size: 42px !important;        /* phone-friendly size — tweak to taste */
+    font-weight: 800 !important;
+    line-height: 1.12 !important;
+    margin: 8px 0 18px 0 !important;
+    text-align: center !important;
+    color: #0b2540 !important;
+    -webkit-text-size-adjust: none !important;
+    text-size-adjust: none !important;
+    text-shadow: 0 2px 6px rgba(11,37,64,0.10) !important;
   }
 
-  /* force sidebar-to-top area readable */
-  .css-1d391kg, .css-1lcbmhc, .css-1v0mbdj { /* common streamlit wrapper classes (may vary) */
-    background: rgba(255,255,255,0.92) !important;
-    color: #111 !important;
+  /* ensure any inline spans/emojis inherit */
+  .stApp .main-card h1 * ,
+  .stApp .stMarkdown h1 * {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
   }
 
-  /* hide small decorative images in header if they collide */
-  .stMarkdown img { max-height: 36px !important; max-width: 36px !important; }
+  /* scale other headings down a bit */
+  .stApp h2, .stApp .stMarkdown h2 { font-size: 24px !important; }
+  .stApp h3, .stApp .stMarkdown h3 { font-size: 18px !important; }
 
-  /* ensure the plan notice box (blue) remains readable */
-  .assistant-box, .css-1o4c2k3 { background: rgba(220,235,255,0.98) !important; color: #072241 !important; }
+  /* shrink gaps/paddings to fit small screens */
+  .main-card { padding: 12px !important; border-radius: 10px !important; }
+  .recipe-card { padding: 8px !important; margin-bottom: 10px !important; }
+  .assistant-box { padding: 10px !important; }
 
-  /* If any Streamlit internal class forces white text, override */
-  .stText, .stText > div, .stMarkdown, .stMarkdown > div {
-    color: #111 !important;
-  }
-}
-
-/* extremely narrow phones */
-@media (max-width: 420px) {
-  .stApp h1 { font-size: 20px !important; }
-  .assistant-box { font-size: 13px !important; padding: 8px !important; }
+  /* keep sidebar text readable when collapsed */
+  .sidebar .stText, .sidebar .stHeader { color: #111 !important; }
 }
 </style>
 """
