@@ -36,7 +36,7 @@ groq_client = Groq(api_key=GROQ_KEY)
 # ---------- Page config ----------
 st.set_page_config(page_title="AI Nutrition Assistant", layout="wide", initial_sidebar_state="expanded")
 
-REMOTE_BG = "https://static.vecteezy.com/system/resources/previews/036/597/885/non_2x/ai-generated-healthy-food-store-advertisment-background-with-copy-space-free-photo.jpg"
+REMOTE_BG = "https://as2.ftcdn.net/v2/jpg/02/49/58/87/1000_F_249588708_tfhSIvYkdS2RLrMeNUSqMJhkOJ5En7EW.jpg"
 LOCAL_BG = Path("assets/food_blur.jpg")
 bg_url = LOCAL_BG.as_posix() if LOCAL_BG.exists() else REMOTE_BG
 
@@ -80,6 +80,7 @@ PAGE_CSS = f"""
     border-radius: 8px;
     border: 1px solid rgba(170,200,230,0.9);
     color: #0e3b66;
+    
 }}
 </style>
 """
