@@ -152,12 +152,21 @@ html, body, .stApp {
   }
 
   /* shrink big hero & make text bold & dark */
-  .stApp h1 {
-    font-size: 24px !important;
-    line-height: 1 !important;
-    color: #0b2540 !important;
-    margin: 6px 0 10px 0 !important;
-  }
+/* shrink or adjust hero title ONLY on phones */
+@media (max-width: 900px) {
+    .stApp h1 {
+        font-size: 30px !important;       /* bigger title for phone */
+        font-weight: 800 !important;
+        line-height: 1.2 !important;
+        color: #0b2540 !important;
+        margin: 10px 0 14px 0 !important;
+        text-align: center !important;
+    }
+
+    .stApp h2 { font-size: 22px !important; }
+    .stApp h3 { font-size: 18px !important; }
+}
+
   .stApp h2, .stApp h3 { color: #0b2540 !important; }
 
   /* reduce spacing and padding so things fit on small screens */
