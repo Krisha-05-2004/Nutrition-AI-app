@@ -12,9 +12,19 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
 from groq import Groq
-groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 
+# Load API key (Streamlit Secrets first, then .env)
+GROQ_KEY = st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
+
+if not GROQ_KEY:
+    st.error("❌ GROQ_API_KEY is missing. Add it in Streamlit Secrets.")
+    st.stop()
+
+# Load model name
+GROQ_MODEL = st.secrets.get("GROQ_MODEL") or os.getenv("GROQ_MODEL") or "llama-3.1-8b-instant"
+
+# Create Groq client
+groq_client = Groq(api_key=GROQ_KEY)
 
 # ---------- Page config ----------
 st.set_page_config(page_title="AI Nutrition Assistant", layout="wide", initial_sidebar_state="expanded")
