@@ -155,7 +155,7 @@ html, body, .stApp {
 /* shrink or adjust hero title ONLY on phones */
 @media (max-width: 900px) {
     .stApp h1 {
-        font-size: 30px !important;       /* bigger title for phone */
+        font-size:40px !important;       /* bigger title for phone */
         font-weight: 800 !important;
         line-height: 1.2 !important;
         color: #0b2540 !important;
