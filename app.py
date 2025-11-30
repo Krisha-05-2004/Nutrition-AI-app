@@ -153,7 +153,7 @@ html, body, .stApp {
 
   /* shrink big hero & make text bold & dark */
 /* shrink or adjust hero title ONLY on phones */
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .stApp h1 {
         font-size:40px !important;       /* bigger title for phone */
         font-weight: 800 !important;
