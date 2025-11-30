@@ -152,19 +152,28 @@ html, body, .stApp {
   }
 
   /* shrink big hero & make text bold & dark */
-/* shrink or adjust hero title ONLY on phones */
+/* PHONE OVERRIDE — FORCE BIG TITLE */
 @media (max-width: 1000px) {
+
     .stApp h1 {
-        font-size:40px !important;       /* bigger title for phone */
-        font-weight: 800 !important;
+        font-size: 48px !important;        /* big */
+        font-weight: 900 !important;
         line-height: 1.2 !important;
         color: #0b2540 !important;
-        margin: 10px 0 14px 0 !important;
+        margin: 12px 0 20px 0 !important;
         text-align: center !important;
+
+        /* make sure absolutely nothing overrides this */
+        -webkit-text-size-adjust: none !important;
+        text-size-adjust: none !important;
     }
 
-    .stApp h2 { font-size: 22px !important; }
-    .stApp h3 { font-size: 18px !important; }
+    /* EVEN MORE FORCE */
+    h1, .stMarkdown h1, .stMarkdown > h1 {
+        font-size: 48px !important;
+        font-weight: 900 !important;
+        line-height: 1.2 !important;
+    }
 }
 
   .stApp h2, .stApp h3 { color: #0b2540 !important; }
