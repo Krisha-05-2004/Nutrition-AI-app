@@ -13,17 +13,24 @@ from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
 from groq import Groq
 
-# Load API key (Streamlit Secrets first, then .env)
-GROQ_KEY = st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
+def get_secret(key, default=None):
+    # 1) prefer environment variables (useful locally)
+    v = os.getenv(key)
+    if v:
+        return v
+    # 2) then try Streamlit secrets (safe: catch errors if none exist)
+    try:
+        return st.secrets.get(key, default)
+    except Exception:
+        return default
+
+GROQ_KEY = get_secret("GROQ_API_KEY")
+GROQ_MODEL = get_secret("GROQ_MODEL", "llama-3.1-8b-instant")
 
 if not GROQ_KEY:
-    st.error("❌ GROQ_API_KEY is missing. Add it in Streamlit Secrets.")
+    st.error("GROQ_API_KEY not found. Add it to Streamlit Secrets (cloud) or set it locally in .env/.streamlit/secrets.toml")
     st.stop()
 
-# Load model name
-GROQ_MODEL = st.secrets.get("GROQ_MODEL") or os.getenv("GROQ_MODEL") or "llama-3.1-8b-instant"
-
-# Create Groq client
 groq_client = Groq(api_key=GROQ_KEY)
 
 # ---------- Page config ----------
