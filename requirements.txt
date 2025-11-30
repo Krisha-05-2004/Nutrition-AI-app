@@ -6,6 +6,7 @@ tqdm
 openai>=1.0.0
 groq
 langchain>=0.0.300
-reportlab==4.4.5
+reportlab==3.6.13
+
 
 
